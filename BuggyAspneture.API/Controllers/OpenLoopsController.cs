@@ -1,6 +1,7 @@
 using BuggyAspneture.API.Contracts;
 using BuggyAspneture.DataAccess;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR.Protocol;
 using System.Net;
 using System.Net.Mime;
 
@@ -19,7 +20,7 @@ public class OpenLoopsController : ControllerBase
         _logger = logger;
     }
 
-    [HttpGet("Get all")]
+    [HttpGet("Get all Notes")]
     [ProducesResponseType(typeof(GetOpenLoopsResponse), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> Get()
     {
@@ -38,9 +39,9 @@ public class OpenLoopsController : ControllerBase
         return Ok(response);
     }
 
-    [HttpPost("Add")]
+    [HttpPost("Add Not")]
     [ProducesResponseType(typeof(Guid), (int)HttpStatusCode.OK)]
-    public async Task<IActionResult> Create([FromBody] CreateOpenLoopsRequest request)
+    public async Task<IActionResult> Create([FromQuery] CreateOpenLoopsRequest request)
     {
         var openLoop = new OpenLoop
         {
@@ -51,7 +52,7 @@ public class OpenLoopsController : ControllerBase
         return Ok(openLoopId);
     }
 
-    [HttpPost("Update")]
+    [HttpPut("Change note")]
     [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> Update([FromQuery] UpdateOpenLoopsRequest request)
     {
@@ -66,7 +67,7 @@ public class OpenLoopsController : ControllerBase
         }
     }
 
-    [HttpPost("Delete")]
+    [HttpDelete("Close Note")]
     [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> Delete([FromQuery] DeleteOpenLoopsRequest request)
     {

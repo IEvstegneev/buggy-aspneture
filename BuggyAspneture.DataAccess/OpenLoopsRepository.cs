@@ -1,6 +1,4 @@
-﻿using System.Text.Json;
-
-namespace BuggyAspneture.DataAccess;
+﻿namespace BuggyAspneture.DataAccess;
 
 public class OpenLoopsRepository
 {
@@ -17,7 +15,7 @@ public class OpenLoopsRepository
         var openLoops = new List<OpenLoop>();
         foreach (var filePath in files)
         {
-            var openLoop = Read(filePath);
+            var openLoop = JsonHelper.Read(filePath);
             openLoops.Add(openLoop);
         }
         return openLoops.ToArray();
@@ -25,9 +23,17 @@ public class OpenLoopsRepository
 
     public static Guid Add(OpenLoop openLoop)
     {
-        var newOpenLoop = openLoop with { Id = Guid.NewGuid() };
-        Write(newOpenLoop);
-        return newOpenLoop.Id;
+        var id = Guid.NewGuid();
+        if (OpenLoopExists(id, out string filePath))
+        {
+            var newOpenLoop = openLoop with { Id = id  };
+            JsonHelper.Write(newOpenLoop, filePath);
+            return id;
+        }
+        else
+        {
+            throw new InvalidOperationException($"File with name {filePath} exists already.");
+        }
     }
 
     /// <returns>Full path if deleting is successful and null if not.</returns>
@@ -49,9 +55,9 @@ public class OpenLoopsRepository
     {
         if (OpenLoopExists(id, out string filePath))
         {
-            var openLoop = Read(filePath);
-            var updateOpenLoops = openLoop with { Note = newText };
-            Write(updateOpenLoops);
+            var openLoop = JsonHelper.Read(filePath);
+            var updatedOpenLoops = openLoop with { Note = newText };
+            JsonHelper.Write(updatedOpenLoops, filePath);
             return filePath;
         }
         else
@@ -64,32 +70,5 @@ public class OpenLoopsRepository
     {
         filePath = Path.Combine(_directoryName, $"{id}.json");
         return File.Exists(filePath);
-    }
-
-    private static OpenLoop Read(string file)
-    {
-        var json = File.ReadAllText(file);
-        var openLoop = JsonSerializer.Deserialize<OpenLoop>(json);
-        if (openLoop == null)
-        {
-            throw new NullReferenceException("OpenLoop cannot be deserialized.");
-        }
-        return openLoop;
-    }
-
-    private static void Write(OpenLoop openLoop)
-    {
-        if (openLoop == null)
-        {
-            throw new NullReferenceException("OpenLoop cannot be serialized.");
-        }
-        var json = JsonSerializer.Serialize(openLoop,
-            new JsonSerializerOptions
-            {
-                WriteIndented = true
-            });
-        var fileName = $"{openLoop.Id}.json";
-        var filePath = Path.Combine(_directoryName, fileName);
-        File.WriteAllText(filePath, json);
     }
 }
