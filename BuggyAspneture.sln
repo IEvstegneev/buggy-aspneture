@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuggyAspneture.API", "Buggy
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuggyAspneture.DataAccess", "BuggyAspneture.DataAccess\BuggyAspneture.DataAccess.csproj", "{C88049A2-3566-4A82-8095-A10F9A6DBB9B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuggyAspneture.UnitTests", "BuggyAspneture.UnitTests\BuggyAspneture.UnitTests.csproj", "{4C2EA8B4-15F5-4305-96DE-04DE92DABBD9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{C88049A2-3566-4A82-8095-A10F9A6DBB9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C88049A2-3566-4A82-8095-A10F9A6DBB9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C88049A2-3566-4A82-8095-A10F9A6DBB9B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C2EA8B4-15F5-4305-96DE-04DE92DABBD9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C2EA8B4-15F5-4305-96DE-04DE92DABBD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C2EA8B4-15F5-4305-96DE-04DE92DABBD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C2EA8B4-15F5-4305-96DE-04DE92DABBD9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
