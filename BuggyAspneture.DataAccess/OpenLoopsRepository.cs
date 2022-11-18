@@ -2,7 +2,7 @@
 
 public class OpenLoopsRepository
 {
-    private static string _directoryName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "openLoops");
+    private static string _directoryName = "./openLoops/"; //Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "openLoops");
 
     static OpenLoopsRepository()
     {
@@ -21,18 +21,18 @@ public class OpenLoopsRepository
         return openLoops.ToArray();
     }
 
-    public static Guid Add(OpenLoop openLoop)
+    public static string Add(OpenLoop openLoop)
     {
         var id = Guid.NewGuid();
         if (OpenLoopExists(id, out string filePath))
         {
-            var newOpenLoop = openLoop with { Id = id  };
-            JsonHelper.Write(newOpenLoop, filePath);
-            return id;
+            throw new InvalidOperationException($"File with name {filePath} exists already.");
         }
         else
         {
-            throw new InvalidOperationException($"File with name {filePath} exists already.");
+            var newOpenLoop = openLoop with { Id = id  };
+            JsonHelper.Write(newOpenLoop, filePath);
+            return _directoryName;
         }
     }
 

@@ -39,9 +39,9 @@ public class OpenLoopsController : ControllerBase
         return Ok(response);
     }
 
-    [HttpPost("Add Not")]
-    [ProducesResponseType(typeof(Guid), (int)HttpStatusCode.OK)]
-    public async Task<IActionResult> Create([FromQuery] CreateOpenLoopsRequest request)
+    [HttpPost("Add Note")]
+    [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
+    public async Task<IActionResult> Create([FromBody] CreateOpenLoopsRequest request)
     {
         var openLoop = new OpenLoop
         {
@@ -51,13 +51,13 @@ public class OpenLoopsController : ControllerBase
         var openLoopId = OpenLoopsRepository.Add(openLoop);
         return Ok(openLoopId);
     }
-
+    
     [HttpPut("Change note")]
     [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> Update([FromQuery] UpdateOpenLoopsRequest request)
     {
         if (Guid.TryParse(request.Id, out Guid id))
-        {
+        { 
             var result = OpenLoopsRepository.Update(id, request.NewText); 
             return result != null ? Ok($"File is updated. Path: {result}") : NotFound($"File with {id} is not found.");
         }
