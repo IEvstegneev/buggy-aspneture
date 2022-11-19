@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 
-namespace FuelAccounting.DataAccess
+namespace BuggyAspneture.DataAccess
 {
     public static class JsonHelper
     {
