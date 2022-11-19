@@ -1,28 +1,49 @@
 ﻿using System.Text.Json;
 
-namespace BuggyAspneture.DataAccess
+namespace FuelAccounting.DataAccess
 {
     public static class JsonHelper
     {
-        public static OpenLoop Read(string filePath)
+        public static T Read<T>(string filePath)
         {
             var json = File.ReadAllText(filePath);
-            var openLoop = JsonSerializer.Deserialize<OpenLoop>(json);
-            if (openLoop == null)
+            var obj = JsonSerializer.Deserialize<T>(json);
+            if (obj == null)
             {
-                throw new NullReferenceException("OpenLoop cannot be deserialized.");
+                throw new NullReferenceException($"{nameof(T)} cannot be deserialized.");
             }
-            return openLoop;
+            return obj;
         }
 
-        public static void Write(OpenLoop openLoop, string filePath)
+        public static void Write<T>(T obj, string filePath)
         {
-            if (openLoop == null)
+            if (obj == null)
             {
-                throw new NullReferenceException("OpenLoop cannot be serialized.");
+                throw new NullReferenceException($"{nameof(T)} cannot be serialized.");
             }
-            var json = JsonSerializer.Serialize(openLoop, new JsonSerializerOptions { WriteIndented = true });
+            var json = JsonSerializer.Serialize(obj, new JsonSerializerOptions { WriteIndented = true });
             File.WriteAllText(filePath, json);
+        }
+
+        public static async Task<T> ReadAsync<T>(string filePath)
+        {
+            var json = await File.ReadAllTextAsync(filePath);
+            var obj = JsonSerializer.Deserialize<T>(json);
+            if (obj == null)
+            {
+                throw new NullReferenceException($"{nameof(T)} cannot be deserialized.");
+            }
+            return obj;
+        }
+
+        public static async Task WriteAsync<T>(T obj, string filePath)
+        {
+            if (obj == null)
+            {
+                throw new NullReferenceException($"{nameof(T)} cannot be serialized.");
+            }
+            var json = JsonSerializer.Serialize(obj, new JsonSerializerOptions { WriteIndented = true });
+            await File.WriteAllTextAsync(filePath, json);
         }
     }
 }

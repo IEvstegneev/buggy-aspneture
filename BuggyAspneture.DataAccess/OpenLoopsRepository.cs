@@ -15,7 +15,7 @@ public class OpenLoopsRepository
         var openLoops = new List<OpenLoop>();
         foreach (var filePath in files)
         {
-            var openLoop = JsonHelper.Read(filePath);
+            var openLoop = JsonHelper.Read<OpenLoop>(filePath);
             openLoops.Add(openLoop);
         }
         return openLoops.ToArray();
@@ -55,7 +55,7 @@ public class OpenLoopsRepository
     {
         if (OpenLoopExists(id, out string filePath))
         {
-            var openLoop = JsonHelper.Read(filePath);
+            var openLoop = JsonHelper.Read<OpenLoop>(filePath);
             var updatedOpenLoops = openLoop with { Note = newText };
             JsonHelper.Write(updatedOpenLoops, filePath);
             return filePath;
