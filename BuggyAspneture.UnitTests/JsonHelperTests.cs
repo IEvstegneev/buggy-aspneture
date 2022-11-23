@@ -8,7 +8,8 @@ public class JsonHelperTests
     [Fact]
     public void FailOnWriteNull()
     {
-        var write = () => JsonHelper.Write(null, @".\test.json");
+        OpenLoop openLoop = null;
+        var write = () => JsonHelper.Write(openLoop, @".\test.json");
 
         Assert.Throws<NullReferenceException>(write);
     }
@@ -29,7 +30,7 @@ public class JsonHelperTests
         var path = @".\test.json";
         var expected = new OpenLoop();
         JsonHelper.Write(expected, path);
-        var actual = JsonHelper.Read(path);
+        var actual = JsonHelper.Read<OpenLoop>(path);
         File.Delete(path); 
         Assert.Equal(expected, actual);
     }
