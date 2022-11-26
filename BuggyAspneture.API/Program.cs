@@ -10,6 +10,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Получить доступ к EntityFramework
+// > dotnet new tool-manifest
+// > dotnet tool install dotnet-ef
 // Подключение контекста 
 //  > dotnet ef dbcontext info --project BuggyAspneture.API
 // Создание миграций (-s - startup проект где инжектится ДБ-контекст, -p - project где миграции)
